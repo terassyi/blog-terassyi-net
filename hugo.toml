@@ -1,0 +1,77 @@
+baseURL = 'https://blog.terassyi.net/'
+languageCode = 'ja'
+title = 'terassyi blog'
+
+theme = "beautifulhugo"
+
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[Params]
+  subtitle = "Tech and activity logs by terassyi"
+  mainSections = ["post", "posts"]
+  logo = "img/icon.jpeg"
+  favicon = "img/favicon.ico"
+  dateFormat = "2006/01/02"
+  rss = true
+  comments = true
+  readingTime = true
+  wordCount = true
+  socialShare = true
+  # delayDisqus = true
+  showRelatedPosts = true
+  # hasCJKLanguage = true
+
+  selfHosted = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 6
+  [markup.goldmark.parser]
+    [markup.goldmark.parser.attribute]
+      block = true
+      title = true
+
+# syntax highlighting
+# pygmentsStyle = "trac"
+pygmentsUseClasses = true
+pygmentsCodeFences = true
+pygmentsCodefencesGuessSyntax = true
+
+[Params.author]
+  name = "terassyi"
+  email = "iscale821@gmail.com"
+  website = "https://blog.terassyi.net"
+  github = "terassyi"
+  twitter = "terassyi_"
+
+[[menu.main]]
+  name = "Home"
+  url = ""
+  weight = 1
+
+[[menu.main]]
+  name = "Tech"
+  url = "categories/tech"
+  weight = 2
+
+[[menu.main]]
+  name = "About"
+  url = "page/about"
+  weight = 3
+
+[[menu.main]]
+  name = "Categories"
+  url = "categories"
+  weight = 4
+
+[[menu.main]]
+  name = "Tags"
+  url = "tags"
+  weight = 5

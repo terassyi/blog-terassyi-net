@@ -1,0 +1,12 @@
+
+/* 段落間の余白を調整 */
+.post-content p,
+.blog-post p {
+  margin-bottom: 0.5em !important; /* デフォルトより小さく */
+}
+
+.post-content p + p,
+.blog-post p + p {
+  margin-bottom: 0.5em !important; /* デフォルトより小さく */
+  margin-top: 0.5em !important; /* デフォルトより小さく */
+}

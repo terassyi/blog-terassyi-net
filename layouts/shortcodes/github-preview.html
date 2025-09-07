@@ -1,0 +1,414 @@
+{{ $repo := .Get "repo" }}
+{{ $path := .Get "path" }}
+{{ $branch := .Get "branch" | default "main" }}
+{{ $lines := .Get "lines" }}
+{{ $title := .Get "title" | default $path }}
+{{ $preview := .Get "preview" | default "10" }}
+
+<div class="github-file-card" data-repo="{{ $repo }}" data-path="{{ $path }}" data-branch="{{ $branch }}" data-lines="{{ $lines }}" data-preview="{{ $preview }}">
+  <div class="github-file-header">
+    <div class="github-file-info">
+      <div class="github-file-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path fill-rule="evenodd" d="M3.75 1.5a.25.25 0 00-.25.25v13a.25.25 0 00.25.25h8.5a.25.25 0 00.25-.25V6H9.75A1.75 1.75 0 018 4.25V1.5H3.75zM9.5 3.25L12.25 6H9.5V3.25zM2 1.75C2 .784 2.784 0 3.75 0h5.086c.464 0 .909.184 1.237.513l3.414 3.414c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0112.25 16h-8.5A1.75 1.75 0 012 14.25V1.75z"/>
+        </svg>
+      </div>
+      <div class="github-file-details">
+        <div class="github-file-title">{{ $title }}</div>
+        <div class="github-file-path">{{ $repo }}/{{ $path }}</div>
+      </div>
+    </div>
+    <div class="github-file-actions">
+      <a href="https://github.com/{{ $repo }}/blob/{{ $branch }}/{{ $path }}{{ if $lines }}#L{{ $lines | replaceRE "-(.*)" "-L$1" }}{{ end }}" target="_blank" rel="noopener" class="github-file-link">
+        View on GitHub
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+          <path fill-rule="evenodd" d="M6.22 3.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 010-1.06z"/>
+        </svg>
+      </a>
+      <button class="github-file-toggle" type="button" style="display: none;">
+        <span class="toggle-text">Show More</span>
+        <svg class="toggle-icon" width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.78 6.22a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06 0L3.22 7.28a.75.75 0 011.06-1.06L8 9.94l3.72-3.72a.75.75 0 011.06 0z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="github-file-content">
+    <div class="github-file-loading">Loading file preview...</div>
+    <pre class="github-file-code" style="display: none;"><code></code></pre>
+    <div class="github-file-footer" style="display: none;">
+      <div class="github-file-meta">
+        <span class="github-file-lines"></span>
+        <span class="github-file-size"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.github-file-card {
+  margin: 1.5rem 0;
+  border: 1px solid #d1d9e0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial;
+}
+
+.github-file-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #f6f8fa;
+  border-bottom: 1px solid #d1d9e0;
+  min-height: 32px;
+}
+
+.github-file-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.github-file-icon {
+  flex-shrink: 0;
+  color: #656d76;
+}
+
+.github-file-details {
+  min-width: 0;
+  flex: 1;
+}
+
+.github-file-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2328;
+  margin-bottom: 2px;
+  word-break: break-all;
+}
+
+.github-file-path {
+  font-size: 12px;
+  color: #656d76;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.github-file-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.github-file-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #0969da;
+  text-decoration: none;
+  padding: 3px 12px;
+  border: 1px solid #d1d9e0;
+  border-radius: 6px;
+  background: #f6f8fa;
+  transition: all 0.2s;
+}
+
+.github-file-link:hover {
+  background-color: #f3f4f6;
+  border-color: #bbb;
+  text-decoration: none;
+  color: #0969da;
+}
+
+.github-file-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f6f8fa;
+  border: 1px solid #d1d9e0;
+  border-radius: 6px;
+  padding: 3px 12px;
+  font-size: 12px;
+  color: #656d76;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.github-file-toggle:hover {
+  background-color: #f3f4f6;
+  border-color: #bbb;
+}
+
+.toggle-icon {
+  transition: transform 0.2s;
+}
+
+.github-file-toggle.expanded .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.github-file-content {
+  position: relative;
+}
+
+.github-file-loading {
+  padding: 16px;
+  text-align: center;
+  color: #656d76;
+  font-size: 14px;
+}
+
+.github-file-code {
+  margin: 0;
+  padding: 16px;
+  background: #f6f8fa;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: #1f2328;
+  border: none;
+  border-radius: 0;
+}
+
+.github-file-code code {
+  background: none;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+  color: inherit;
+}
+
+.github-file-footer {
+  padding: 8px 16px;
+  background: #f6f8fa;
+  border-top: 1px solid #d1d9e0;
+  font-size: 12px;
+  color: #656d76;
+}
+
+.github-file-meta {
+  display: flex;
+  gap: 16px;
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .github-file-card {
+    background: #0d1117;
+    border-color: #30363d;
+  }
+
+  .github-file-header,
+  .github-file-footer {
+    background: #161b22;
+    border-color: #30363d;
+  }
+
+  .github-file-title {
+    color: #f0f6fc;
+  }
+
+  .github-file-path,
+  .github-file-loading,
+  .github-file-meta {
+    color: #8b949e;
+  }
+
+  .github-file-icon {
+    color: #8b949e;
+  }
+
+  .github-file-code {
+    background: #161b22;
+    color: #e6edf3;
+  }
+
+  .github-file-link,
+  .github-file-toggle {
+    background: #21262d;
+    border-color: #30363d;
+    color: #f0f6fc;
+  }
+
+  .github-file-link:hover,
+  .github-file-toggle:hover {
+    background: #30363d;
+    border-color: #8b949e;
+  }
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .github-file-header {
+    padding: 8px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .github-file-info {
+    width: 100%;
+  }
+
+  .github-file-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .github-file-title {
+    font-size: 13px;
+  }
+
+  .github-file-path {
+    font-size: 11px;
+  }
+
+  .github-file-link,
+  .github-file-toggle {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}
+</style>
+
+<script>
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.github-file-card');
+
+    cards.forEach(function(card) {
+      const toggle = card.querySelector('.github-file-toggle');
+      const content = card.querySelector('.github-file-content');
+      const loading = card.querySelector('.github-file-loading');
+      const codeBlock = card.querySelector('.github-file-code');
+      const footer = card.querySelector('.github-file-footer');
+      const toggleText = card.querySelector('.toggle-text');
+
+      let isLoaded = false;
+      let isFullyExpanded = false;
+      let fullContent = '';
+
+      // 初期表示でプレビューを読み込み
+      loadFileContent(card, loading, codeBlock, footer, true);
+
+      if (toggle) {
+        toggle.addEventListener('click', function() {
+          if (!isFullyExpanded) {
+            // 完全展開
+            isFullyExpanded = true;
+            toggle.classList.add('expanded');
+            toggleText.textContent = 'Show Less';
+
+            // 完全版をロード
+            loadFileContent(card, loading, codeBlock, footer, false);
+          } else {
+            // プレビューに戻す
+            isFullyExpanded = false;
+            toggle.classList.remove('expanded');
+            toggleText.textContent = 'Show More';
+
+            // プレビュー版をロード
+            loadFileContent(card, loading, codeBlock, footer, true);
+          }
+        });
+      }
+    });
+  });
+
+  function loadFileContent(card, loading, codeBlock, footer, isPreview = false) {
+    const repo = card.dataset.repo;
+    const path = card.dataset.path;
+    const branch = card.dataset.branch || 'main';
+    const lines = card.dataset.lines;
+    const previewLines = parseInt(card.dataset.preview) || 15;
+
+    const url = `https://raw.githubusercontent.com/${repo}/${branch}/${path}`;
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.text();
+      })
+      .then(content => {
+        loading.style.display = 'none';
+
+        const allLines = content.split('\n');
+        let displayContent = content;
+        let totalLines = allLines.length;
+
+        // 行指定がある場合の処理
+        if (lines) {
+          displayContent = filterLines(content, lines);
+          const filteredLines = displayContent.split('\n');
+          totalLines = filteredLines.length;
+        } else if (isPreview && allLines.length > previewLines) {
+          // プレビューモードの場合
+          displayContent = allLines.slice(0, previewLines).join('\n');
+
+          // Show More ボタンを表示
+          const toggle = card.querySelector('.github-file-toggle');
+          if (toggle) {
+            toggle.style.display = 'flex';
+          }
+        }
+
+        // HTMLエスケープとシンタックスハイライト風の処理
+        const escapedContent = displayContent
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+
+        codeBlock.querySelector('code').innerHTML = escapedContent;
+        codeBlock.style.display = 'block';
+
+        // フッター情報を更新
+        const linesSpan = card.querySelector('.github-file-lines');
+        const sizeSpan = card.querySelector('.github-file-size');
+
+        if (linesSpan && sizeSpan) {
+          const displayLines = displayContent.split('\n').length;
+          const sizeBytes = new Blob([content]).size;
+
+          linesSpan.textContent = `${displayLines} lines`;
+          sizeSpan.textContent = formatFileSize(sizeBytes);
+          footer.style.display = 'block';
+        }
+
+      })
+      .catch(error => {
+        console.error('Error fetching file:', error);
+        loading.textContent = `Failed to load file: ${error.message}`;
+        loading.style.color = '#d1242f';
+      });
+  }
+
+  function filterLines(content, linesSpec) {
+    const lines = content.split('\n');
+
+    if (linesSpec.includes('-')) {
+      const [start, end] = linesSpec.split('-').map(n => parseInt(n));
+      return lines.slice(start - 1, end).join('\n');
+    } else {
+      const lineNum = parseInt(linesSpec);
+      return lines[lineNum - 1] || '';
+    }
+  }
+
+  function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  }
+})();
+</script>

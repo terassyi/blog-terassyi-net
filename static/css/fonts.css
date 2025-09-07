@@ -1,0 +1,23 @@
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif !important;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, div, span, a,
+.post-title,
+.post-content,
+.post-meta,
+.blog-post,
+.navbar,
+.footer {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif !important;
+}
+
+.fas, .far, .fab, .fa {
+  font-family: "Font Awesome 5 Free", "Font Awesome 5 Pro", "Font Awesome 5 Brands" !important;
+}
+
+code, pre, .highlight {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace !important;
+}
