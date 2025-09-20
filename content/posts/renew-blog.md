@@ -1,6 +1,6 @@
 +++
 categories = [ "activity" ]
-tags = [ "blog" "hugo" ]
+tags = [ "blog", "hugo" ]
 date = 2025-09-21
 title = "ブログをリニューアルしました"
 description = "ブログを Hugo に移行して、URL を blog.terassyi.net に変更しました"
